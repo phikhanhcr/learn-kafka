@@ -9,18 +9,18 @@ const main = async () => {
     brokers: ['localhost:9092']
   })
 
-  const consumer = kafka.consumer({ groupId: "group-id" })
+  const consumer = kafka.consumer({ groupId: "123" })
 
   await consumer.connect();
 
   await consumer.subscribe({
-    topic: "topic2",
-    fromBeginning: true
+    topic: "user",
   })
 
   await consumer.run({
     eachMessage: async ({ message }) => {
-      console.log({ message })
+      const parseMessage = JSON.parse(message.value.toString())
+      console.log({ message, parseMessage })
     }
   })
 }
